@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fichas de Treino Personalizadas - Maisa</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Reset e Variáveis de Cor */
+    :root {
+      --preto: #121212;
+      --roxo: #7e22ce;
+      --roxo-claro: #a855f7;
+      --roxo-suave: rgba(126, 34, 206, 0.1);
+      --branco: #ffffff;
+      --cinza: #e5e7eb;
+      --cinza-escuro: #1f2937;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      transition: all 0.3s ease;
+    }
+    
+    /* Estilos Gerais */
+    body {
+      font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+      line-height: 1.6;
+      background-color: var(--preto);
+      color: var(--branco);
+      padding: 0;
+      overflow-x: hidden;
+    }
+    
+    /* Cabeçalho Moderno */
+    header {
+      background: linear-gradient(135deg, var(--roxo), var(--preto));
+      text-align: center;
+      padding: 2rem 1rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(126, 34, 206, 0.1) 0%, rgba(18, 18, 18, 0) 70%);
+      animation: rotate 20s linear infinite;
+    }
+    
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--branco);
+      position: relative;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+    
+    header p {
+      font-size: 1.2rem;
+      color: var(--cinza);
+      position: relative;
+    }
+    
+    /* Navegação entre Treinos */
+    .nav-treinos {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 1rem;
+      background-color: var(--cinza-escuro);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    
+    .nav-treinos button {
+      background-color: var(--roxo);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .nav-treinos button:hover {
+      background-color: var(--roxo-claro);
+      transform: translateY(-2px);
+    }
+    
+    .nav-treinos button.active {
+      background-color: var(--branco);
+      color: var(--roxo);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+    
+    /* Conteúdo Principal */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem 2rem;
+    }
+    
+    /* Seções de Treino Modernas */
+    section.treino {
+      background-color: var(--cinza-escuro);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      border-left: 4px solid var(--roxo);
+      display: none;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeIn 0.5s forwards;
+    }
+    
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    section.treino.active {
+      display: block;
+    }
+    
+    section.treino h2 {
+      color: var(--roxo-claro);
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    section.treino h2 i {
+      color: var(--roxo);
+    }
+    
+    section.treino h3 {
+      color: var(--branco);
+      font-size: 1.4rem;
+      margin: 1.5rem 0 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--roxo);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    section.treino ul {
+      list-style-type: none;
+      margin-left: 1rem;
+    }
+    
+    section.treino ul li {
+      font-size: 1.1rem;
+      color: var(--cinza);
+      margin-bottom: 0.8rem;
+      padding-left: 1.5rem;
+      position: relative;
+      line-height: 1.6;
+    }
+    
+    section.treino ul li::before {
+      content: '•';
+      color: var(--roxo);
+      font-size: 1.5rem;
+      position: absolute;
+      left: 0;
+      top: -2px;
+    }
+    
+    section.treino p {
+      font-size: 1.1rem;
+      color: var(--cinza);
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+    
+    /* Cards de Exercícios Interativos */
+    .exercicio-card {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      border-left: 3px solid var(--roxo);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .exercicio-card:hover {
+      background-color: rgba(126, 34, 206, 0.1);
+      transform: translateX(5px);
+    }
+    
+    .exercicio-card h4 {
+      color: var(--branco);
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .exercicio-card .detalhes {
+      display: none;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .exercicio-card.ativo .detalhes {
+      display: block;
+    }
+    
+    .exercicio-card .serie {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+    
+    /* Progresso e Interatividade */
+    .progresso-container {
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 50px;
+      margin: 1rem 0;
+      height: 10px;
+    }
+    
+    .progresso-barra {
+      height: 100%;
+      border-radius: 50px;
+      background: linear-gradient(90deg, var(--roxo), var(--roxo-claro));
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+    
+    .botao-marcar {
+      background-color: var(--roxo);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .botao-marcar:hover {
+      background-color: var(--roxo-claro);
+    }
+    
+    .botao-marcar.completo {
+      background-color: #10b981;
+    }
+    
+    /* Rodapé Estilizado */
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      background-color: var(--cinza-escuro);
+      margin-top: 3rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    footer p {
+      font-size: 1rem;
+      color: var(--cinza);
+    }
+    
+    /* Responsividade */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2rem;
+      }
+      
+      header p {
+        font-size: 1rem;
+      }
+      
+      section.treino {
+        padding: 1.5rem;
+      }
+      
+      section.treino h2 {
+        font-size: 1.5rem;
+      }
+      
+      section.treino h3 {
+        font-size: 1.2rem;
+      }
+      
+      .nav-treinos {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .nav-treinos button {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+    
+    /* Efeitos Especiais */
+    .destaque {
+      position: relative;
+    }
+    
+    .destaque::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--roxo-claro), transparent);
+      animation: highlight 2s infinite;
+    }
+    
+    @keyframes highlight {
+      0% { opacity: 0; transform: scaleX(0); }
+      50% { opacity: 1; transform: scaleX(1); }
+      100% { opacity: 0; transform: scaleX(0); }
+    }
+    
+    /* Modal para Detalhes */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .modal-conteudo {
+      background-color: var(--cinza-escuro);
+      padding: 2rem;
+      border-radius: 12px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      border: 2px solid var(--roxo);
+      position: relative;
+    }
+    
+    .fechar-modal {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 1.5rem;
+      color: var(--cinza);
+      cursor: pointer;
+    }
+    
+    .fechar-modal:hover {
+      color: var(--branco);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1><i class="fas fa-dumbbell"></i> Fichas de Treino Personalizadas</h1>
+    <p>Plano de Treinamento Exclusivo para <span class="destaque">Maisa</span></p>
+  </header>
+
+  <nav class="nav-treinos">
+    <button class="active" data-treino="treinoA"><i class="fas fa-running"></i> Treino A</button>
+    <button data-treino="treinoB"><i class="fas fa-fire-alt"></i> Treino B</button>
+    <button data-treino="treinoC"><i class="fas fa-dumbbell"></i> Treino C</button>
+    <button data-treino="treinoD"><i class="fas fa-heartbeat"></i> Treino D</button>
+  </nav>
+
+  <main>
+    <section id="treinoA" class="treino active">
+      <h2><i class="fas fa-running"></i> Treino A - Foco em Quadríceps + Mobilidade + Panturrilha + Cardio</h2>
+      
+      <div class="progresso-container">
+        <div class="progresso-barra" style="width: 25%;"></div>
+      </div>
+      
+      <h3><i class="fas fa-walking"></i> 1. Mobilidade Inicial (5 a 8 minutos)</h3>
+      <div class="exercicio-card">
+        <h4>Agachamento com peso corporal <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>15 repetições</span></div>
+          <div class="serie"><span>Série 2:</span> <span>15 repetições</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+      <div class="exercicio-card">
+        <h4>Alongamento dinâmico de quadril <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>10 movimentos cada lado</span></div>
+          <div class="serie"><span>Série 2:</span> <span>10 movimentos cada lado</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+      <div class="exercicio-card">
+        <h4>Mobilização de tornozelo <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>15 movimentos cada perna</span></div>
+          <div class="serie"><span>Série 2:</span> <span>15 movimentos cada perna</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+
+      <h3><i class="fas fa-dumbbell"></i> 2. Parte Principal (Quadríceps)</h3>
+      <div class="exercicio-card">
+        <h4>Agachamento no Smith Machine <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>12-15 repetições</span></div>
+          <div class="serie"><span>Série 2:</span> <span>12-15 repetições</span></div>
+          <div class="serie"><span>Série 3:</span> <span>12-15 repetições</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+      <div class="exercicio-card">
+        <h4>Leg Press 45º <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>12-15 repetições</span></div>
+          <div class="serie"><span>Série 2:</span> <span>12-15 repetições</span></div>
+          <div class="serie"><span>Série 3:</span> <span>12-15 repetições</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+      <div class="exercicio-card">
+        <h4>Afundo (com halteres ou barra leve) <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>10 repetições cada perna</span></div>
+          <div class="serie"><span>Série 2:</span> <span>10 repetições cada perna</span></div>
+          <div class="serie"><span>Série 3:</span> <span>10 repetições cada perna</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+      <div class="exercicio-card">
+        <h4>Cadeira Extensora <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>15-20 repetições</span></div>
+          <div class="serie"><span>Série 2:</span> <span>15-20 repetições</span></div>
+          <div class="serie"><span>Série 3:</span> <span>15-20 repetições</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+      <div class="exercicio-card">
+        <h4>Cadeira Adutora <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>15-20 repetições</span></div>
+          <div class="serie"><span>Série 2:</span> <span>15-20 repetições</span></div>
+          <div class="serie"><span>Série 3:</span> <span>15-20 repetições</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+      <div class="exercicio-card">
+        <h4>Hack Machine (opcional) <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>12 repetições</span></div>
+          <div class="serie"><span>Série 2:</span> <span>12 repetições</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+
+      <h3><i class="fas fa-shoe-prints"></i> 3. Panturrilha</h3>
+      <div class="exercicio-card">
+        <h4>Elevação de Panturrilha em Pé <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>20 repetições</span></div>
+          <div class="serie"><span>Série 2:</span> <span>20 repetições</span></div>
+          <div class="serie"><span>Série 3:</span> <span>20 repetições</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+
+      <h3><i class="fas fa-heartbeat"></i> 4. Cardio Final</h3>
+      <div class="exercicio-card">
+        <h4>30 minutos de cardio <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <p>Esteira, transport (elíptico) ou bicicleta ergométrica.</p>
+          <div class="progresso-container">
+            <div class="progresso-barra" style="width: 0%;"></div>
+          </div>
+          <button class="botao-marcar">Iniciar Cardio</button>
+          <button class="botao-marcar" style="display: none;">Marcar como completo</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="treinoB" class="treino">
+      <h2><i class="fas fa-fire-alt"></i> Treino B — Posterior de Coxa e Glúteos + Mobilidade + Panturrilha + Cardio</h2>
+      
+      <div class="progresso-container">
+        <div class="progresso-barra" style="width: 10%;"></div>
+      </div>
+      
+      <h3><i class="fas fa-walking"></i> 1. Mobilidade Inicial (5 a 8 minutos)</h3>
+      <div class="exercicio-card">
+        <h4>Ponte de Glúteo (no solo) <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>15 repetições</span></div>
+          <div class="serie"><span>Série 2:</span> <span>15 repetições</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+      <div class="exercicio-card">
+        <h4>Alongamento dinâmico de posteriores <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>10 cada perna</span></div>
+          <div class="serie"><span>Série 2:</span> <span>10 cada perna</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+      <div class="exercicio-card">
+        <h4>Mobilização de quadril <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>15 movimentos cada lado</span></div>
+          <div class="serie"><span>Série 2:</span> <span>15 movimentos cada lado</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+
+      <h3><i class="fas fa-dumbbell"></i> 2. Parte Principal (Treino de Força)</h3>
+      <div class="exercicio-card">
+        <h4>Agachamento Sumô com halteres ou barra <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>12-15 repetições</span></div>
+          <div class="serie"><span>Série 2:</span> <span>12-15 repetições</span></div>
+          <div class="serie"><span>Série 3:</span> <span>12-15 repetições</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+      <div class="exercicio-card">
+        <h4>Avanço (com halteres ou barra) <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>10-12 repetições cada perna</span></div>
+          <div class="serie"><span>Série 2:</span> <span>10-12 repetições cada perna</span></div>
+          <div class="serie"><span>Série 3:</span> <span>10-12 repetições cada perna</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+      <div class="exercicio-card">
+        <h4>Elevação Pélvica (com barra ou peso no quadril) <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>12-15 repetições</span></div>
+          <div class="serie"><span>Série 2:</span> <span>12-15 repetições</span></div>
+          <div class="serie"><span>Série 3:</span> <span>12-15 repetições</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+      <div class="exercicio-card">
+        <h4>Cadeira Abdutora <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>15-20 repetições</span></div>
+          <div class="serie"><span>Série 2:</span> <span>15-20 repetições</span></div>
+          <div class="serie"><span>Série 3:</span> <span>15-20 repetições</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+      <div class="exercicio-card">
+        <h4>Kickback na polia <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>15 repetições cada perna</span></div>
+          <div class="serie"><span>Série 2:</span> <span>15 repetições cada perna</span></div>
+          <div class="serie"><span>Série 3:</span> <span>15 repetições cada perna</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+      <div class="exercicio-card">
+        <h4>Cadeira Flexora <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>12-15 repetições</span></div>
+          <div class="serie"><span>Série 2:</span> <span>12-15 repetições</span></div>
+          <div class="serie"><span>Série 3:</span> <span>12-15 repetições</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+
+      <h3><i class="fas fa-shoe-prints"></i> 3. Panturrilha</h3>
+      <div class="exercicio-card">
+        <h4>Elevação de Panturrilha Sentado <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>20 repetições</span></div>
+          <div class="serie"><span>Série 2:</span> <span>20 repetições</span></div>
+          <div class="serie"><span>Série 3:</span> <span>20 repetições</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+
+      <h3><i class="fas fa-heartbeat"></i> 4. Cardio Final (Esteira)</h3>
+      <div class="exercicio-card">
+        <h4>30 minutos de caminhada rápida com inclinação <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <p>Inclinação de 4% a 6%</p>
+          <div class="progresso-container">
+            <div class="progresso-barra" style="width: 0%;"></div>
+          </div>
+          <button class="botao-marcar">Iniciar Cardio</button>
+          <button class="botao-marcar" style="display: none;">Marcar como completo</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="treinoC" class="treino">
+      <h2><i class="fas fa-dumbbell"></i> Treino C — Foco em Ombros, Costas e Braços + Cardio</h2>
+      
+      <div class="progresso-container">
+        <div class="progresso-barra" style="width: 5%;"></div>
+      </div>
+      
+      <h3><i class="fas fa-walking"></i> 1. Mobilidade Inicial (5 a 8 minutos)</h3>
+      <div class="exercicio-card">
+        <h4>Mobilização de ombros <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>15 repetições cada direção</span></div>
+          <div class="serie"><span>Série 2:</span> <span>15 repetições cada direção</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+      <div class="exercicio-card">
+        <h4>Alongamento dinâmico de tríceps <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>10 repetições cada braço</span></div>
+          <div class="serie"><span>Série 2:</span> <span>10 repetições cada braço</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+      <div class="exercicio-card">
+        <h4>Mobilização de coluna <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>15 repetições cada lado</span></div>
+          <div class="serie"><span>Série 2:</span> <span>15 repetições cada lado</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+
+      <h3><i class="fas fa-dumbbell"></i> 2. Parte Principal (Força)</h3>
+      <div class="exercicio-card">
+        <h4>Desenvolvimento com Halteres (Ombros) <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>12 repetições</span></div>
+          <div class="serie"><span>Série 2:</span> <span>12 repetições</span></div>
+          <div class="serie"><span>Série 3:</span> <span>12 repetições</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+      <div class="exercicio-card">
+        <h4>Remada com Halteres (Costas) <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>12 repetições</span></div>
+          <div class="serie"><span>Série 2:</span> <span>12 repetições</span></div>
+          <div class="serie"><span>Série 3:</span> <span>12 repetições</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+      <div class="exercicio-card">
+        <h4>Puxada na Polia Alta (Costas) <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>12 repetições</span></div>
+          <div class="serie"><span>Série 2:</span> <span>12 repetições</span></div>
+          <div class="serie"><span>Série 3:</span> <span>12 repetições</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+      <div class="exercicio-card">
+        <h4>Elevação Lateral com Halteres (Ombros) <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>12 repetições</span></div>
+          <div class="serie"><span>Série 2:</span> <span>12 repetições</span></div>
+          <div class="serie"><span>Série 3:</span> <span>12 repetições</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+      <div class="exercicio-card">
+        <h4>Rosca Direta com Halteres (Bíceps) <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>12 repetições</span></div>
+          <div class="serie"><span>Série 2:</span> <span>12 repetições</span></div>
+          <div class="serie"><span>Série 3:</span> <span>12 repetições</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+      <div class="exercicio-card">
+        <h4>Tríceps Testa com Halteres (Tríceps) <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>12 repetições</span></div>
+          <div class="serie"><span>Série 2:</span> <span>12 repetições</span></div>
+          <div class="serie"><span>Série 3:</span> <span>12 repetições</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+      <div class="exercicio-card">
+        <h4>Flexão de Braços (Peito, ombros, tríceps) <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>15 repetições</span></div>
+          <div class="serie"><span>Série 2:</span> <span>15 repetições</span></div>
+          <div class="serie"><span>Série 3:</span> <span>15 repetições</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+
+      <h3><i class="fas fa-heartbeat"></i> 3. Cardio Final (Esteira)</h3>
+      <div class="exercicio-card">
+        <h4>30 minutos de caminhada rápida com inclinação <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <p>Inclinação de 4% a 6%</p>
+          <div class="progresso-container">
+            <div class="progresso-barra" style="width: 0%;"></div>
+          </div>
+          <button class="botao-marcar">Iniciar Cardio</button>
+          <button class="botao-marcar" style="display: none;">Marcar como completo</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="treinoD" class="treino">
+      <h2><i class="fas fa-heartbeat"></i> Treino D — Funcional e de Resistência + Cardio</h2>
+      
+      <div class="progresso-container">
+        <div class="progresso-barra" style="width: 0%;"></div>
+      </div>
+      
+      <h3><i class="fas fa-walking"></i> 1. Mobilidade Inicial (5 a 8 minutos)</h3>
+      <div class="exercicio-card">
+        <h4>Movimentos circulares de braços <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>15 repetições cada direção</span></div>
+          <div class="serie"><span>Série 2:</span> <span>15 repetições cada direção</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+      <div class="exercicio-card">
+        <h4>Alongamento de tronco (torso twists) <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>15 repetições cada lado</span></div>
+          <div class="serie"><span>Série 2:</span> <span>15 repetições cada lado</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+      <div class="exercicio-card">
+        <h4>Alongamento de pernas <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>20 segundos cada lado</span></div>
+          <div class="serie"><span>Série 2:</span> <span>20 segundos cada lado</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+
+      <h3><i class="fas fa-fire-alt"></i> 2. Parte Principal (7 Exercícios Simples e Eficientes)</h3>
+      <div class="exercicio-card">
+        <h4>Agachamento com Peso Corporal <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>12 repetições</span></div>
+          <div class="serie"><span>Série 2:</span> <span>12 repetições</span></div>
+          <div class="serie"><span>Série 3:</span> <span>12 repetições</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+      <div class="exercicio-card">
+        <h4>Prancha <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>30 segundos</span></div>
+          <div class="serie"><span>Série 2:</span> <span>30 segundos</span></div>
+          <div class="serie"><span>Série 3:</span> <span>30 segundos</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+      <div class="exercicio-card">
+        <h4>Polichinelos <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>30 segundos</span></div>
+          <div class="serie"><span>Série 2:</span> <span>30 segundos</span></div>
+          <div class="serie"><span>Série 3:</span> <span>30 segundos</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+      <div class="exercicio-card">
+        <h4>Agachamento com Salto (Plyo Squat) <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>12 repetições</span></div>
+          <div class="serie"><span>Série 2:</span> <span>12 repetições</span></div>
+          <div class="serie"><span>Série 3:</span> <span>12 repetições</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+      <div class="exercicio-card">
+        <h4>Mountain Climbers <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>30 segundos</span></div>
+          <div class="serie"><span>Série 2:</span> <span>30 segundos</span></div>
+          <div class="serie"><span>Série 3:</span> <span>30 segundos</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+      <div class="exercicio-card">
+        <h4>Elevação de Quadril (Bridge) <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>15 repetições</span></div>
+          <div class="serie"><span>Série 2:</span> <span>15 repetições</span></div>
+          <div class="serie"><span>Série 3:</span> <span>15 repetições</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+      <div class="exercicio-card">
+        <h4>Abdominal Simples (Crunch) <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <div class="serie"><span>Série 1:</span> <span>15 repetições</span></div>
+          <div class="serie"><span>Série 2:</span> <span>15 repetições</span></div>
+          <div class="serie"><span>Série 3:</span> <span>15 repetições</span></div>
+          <button class="botao-marcar">Marcar como completo</button>
+        </div>
+      </div>
+
+      <h3><i class="fas fa-heartbeat"></i> 3. Cardio Final (Esteira)</h3>
+      <div class="exercicio-card">
+        <h4>30 minutos de caminhada rápida com inclinação <i class="fas fa-chevron-down"></i></h4>
+        <div class="detalhes">
+          <p>Inclinação de 4% a 6%</p>
+          <div class="progresso-container">
+            <div class="progresso-barra" style="width: 0%;"></div>
+          </div>
+          <button class="botao-marcar">Iniciar Cardio</button>
+          <button class="botao-marcar" style="display: none;">Marcar como completo</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Treinos personalizados para <strong>Maisa</strong> • Criado com <i class="fas fa-heart" style="color: var(--roxo);"></i> por [Seu Nome]</p>
+  </footer>
+
+  <script>
+    // Navegação entre treinos
+    document.querySelectorAll('.nav-treinos button').forEach(button => {
+      button.addEventListener('click', () => {
+        // Remove a classe active de todos os botões
+        document.querySelectorAll('.nav-treinos button').forEach(btn => {
+          btn.classList.remove('active');
+        });
+        
+        // Adiciona a classe active apenas ao botão clicado
+        button.classList.add('active');
+        
+        // Oculta todas as seções de treino
+        document.querySelectorAll('.treino').forEach(section => {
+          section.classList.remove('active');
+        });
+        
+        // Mostra apenas a seção correspondente ao botão clicado
+        const treinoId = button.getAttribute('data-treino');
+        document.getElementById(treinoId).classList.add('active');
+      });
+    });
+    
+    // Interatividade dos cards de exercícios
+    document.querySelectorAll('.exercicio-card h4').forEach(titulo => {
+      titulo.addEventListener('click', () => {
+        const card = titulo.parentElement;
+        card.classList.toggle('ativo');
+        
+        // Alterna o ícone
+        const icone = titulo.querySelector('i');
+        if (card.classList.contains('ativo')) {
+          icone.classList.remove('fa-chevron-down');
+          icone.classList.add('fa-chevron-up');
+        } else {
+          icone.classList.remove('fa-chevron-up');
+          icone.classList.add('fa-chevron-down');
+        }
+      });
+    });
+    
+    // Botões marcar como completo
+    document.querySelectorAll('.botao-marcar').forEach(botao => {
+      botao.addEventListener('click', (e) => {
+        e.stopPropagation();
+        
+        if (botao.textContent.includes('Iniciar')) {
+          // Simula o início do cardio
+          botao.style.display = 'none';
+          botao.nextElementSibling.style.display = 'inline-flex';
+          
+          // Anima a barra de progresso
+          const barra = botao.parentElement.querySelector('.progresso-barra');
+          let progresso = 0;
+          const intervalo = setInterval(() => {
+            progresso += 1;
+            barra.style.width = `${progresso}%`;
+            
+            if (progresso >= 100) {
+              clearInterval(intervalo);
+            }
+          }, 180); // 30 minutos = 1800 segundos, então 180ms para cada 1%
+        } else {
+          // Marca como completo
+          botao.classList.add('completo');
+          botao.innerHTML = '<i class="fas fa-check"></i> Completo';
+          
+          // Atualiza a barra de progresso geral
+          const treino = botao.closest('.treino');
+          const cardsCompletos = treino.querySelectorAll('.botao-marcar.completo').length;
+          const totalCards = treino.querySelectorAll('.botao-marcar').length;
+          const progresso = Math.round((cardsCompletos / totalCards) * 100);
+          
+          treino.querySelector('.progresso-barra').style.width = `${progresso}%`;
+        }
+      });
+    });
+    
+    // Animação de digitação no título
+    const titulo = document.querySelector('header h1');
+    const textoOriginal = titulo.textContent;
+    titulo.textContent = '';
+    
+    let i = 0;
+    const typing = setInterval(() => {
+      if (i < textoOriginal.length) {
+        titulo.textContent += textoOriginal.charAt(i);
+        i++;
+      } else {
+        clearInterval(typing);
+      }
+    }, 100);
+  </script>
+</body>
+</html>
