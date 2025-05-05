@@ -1,0 +1,270 @@
+:root {
+    --preto: #121212;
+    --branco: #ffffff;
+    --cinza: #e5e7eb;
+    --cinza-escuro: #1f2937;
+    
+    /* Cores dos atletas */
+    --roxo-maisa: #7e22ce;
+    --roxo-claro-maisa: #a855f7;
+    --azul-adrian: #1d4ed8;
+    --azul-claro-adrian: #3b82f6;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+  }
+  
+  /* Estilos Gerais */
+  body {
+    font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+    line-height: 1.6;
+    background-color: var(--preto);
+    color: var(--branco);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Cabeçalho Moderno */
+  header {
+    background: linear-gradient(135deg, var(--preto), var(--preto));
+    text-align: center;
+    padding: 2rem 1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, rgba(18, 18, 18, 0) 70%);
+    animation: rotate 20s linear infinite;
+  }
+  
+  @keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--branco);
+    position: relative;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  }
+  
+  header p {
+    font-size: 1.2rem;
+    color: var(--cinza);
+    position: relative;
+  }
+  
+  /* Conteúdo Principal */
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .titulo-secao {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    color: var(--branco);
+    position: relative;
+  }
+  
+  .titulo-secao::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--azul-adrian), var(--roxo-maisa));
+    border-radius: 3px;
+  }
+  
+  /* Cards de Atletas */
+  .container-atletas {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    max-width: 1000px;
+    width: 100%;
+  }
+  
+  .card-atleta {
+    flex: 1;
+    min-width: 300px;
+    max-width: 400px;
+    background-color: var(--cinza-escuro);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .card-atleta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+  }
+  
+  .card-atleta.maisa::before {
+    background: linear-gradient(90deg, var(--roxo-maisa), var(--roxo-claro-maisa));
+  }
+  
+  .card-atleta.adrian::before {
+    background: linear-gradient(90deg, var(--azul-adrian), var(--azul-claro-adrian));
+  }
+  
+  .card-atleta:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+  }
+  
+  .icone-atleta {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+  
+  .maisa .icone-atleta {
+    color: var(--roxo-claro-maisa);
+  }
+  
+  .adrian .icone-atleta {
+    color: var(--azul-claro-adrian);
+  }
+  
+  .nome-atleta {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+  }
+  
+  .maisa .nome-atleta {
+    color: var(--roxo-claro-maisa);
+  }
+  
+  .adrian .nome-atleta {
+    color: var(--azul-claro-adrian);
+  }
+  
+  .descricao-atleta {
+    color: var(--cinza);
+    margin-bottom: 1.5rem;
+  }
+  
+  .botao-acessar {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: 2px solid;
+  }
+  
+  .maisa .botao-acessar {
+    background-color: var(--roxo-maisa);
+    color: white;
+    border-color: var(--roxo-claro-maisa);
+  }
+  
+  .maisa .botao-acessar:hover {
+    background-color: var(--roxo-claro-maisa);
+    box-shadow: 0 0 15px rgba(126, 34, 206, 0.5);
+  }
+  
+  .adrian .botao-acessar {
+    background-color: var(--azul-adrian);
+    color: white;
+    border-color: var(--azul-claro-adrian);
+  }
+  
+  .adrian .botao-acessar:hover {
+    background-color: var(--azul-claro-adrian);
+    box-shadow: 0 0 15px rgba(29, 78, 216, 0.5);
+  }
+  
+  /* Rodapé Estilizado */
+  footer {
+    text-align: center;
+    padding: 1.5rem;
+    background-color: var(--cinza-escuro);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  footer p {
+    font-size: 0.9rem;
+    color: var(--cinza);
+  }
+  
+  /* Efeitos Especiais */
+  .destaque {
+    position: relative;
+  }
+  
+  .destaque::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--roxo-claro-maisa), transparent);
+    animation: highlight 2s infinite;
+  }
+  
+  @keyframes highlight {
+    0% { opacity: 0; transform: scaleX(0); }
+    50% { opacity: 1; transform: scaleX(1); }
+    100% { opacity: 0; transform: scaleX(0); }
+  }
+  
+  /* Responsividade */
+  @media (max-width: 768px) {
+    header h1 {
+      font-size: 2rem;
+    }
+    
+    header p {
+      font-size: 1rem;
+    }
+    
+    .titulo-secao {
+      font-size: 1.5rem;
+    }
+    
+    .container-atletas {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .card-atleta {
+      min-width: 100%;
+    }
+  }

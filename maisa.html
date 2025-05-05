@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ficha de Treino - Maisa</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/maisa.css">
+</head>
+<body>
+  <header class="header-maisa">
+    <div class="header-content">
+      <h1><i class="fas fa-dumbbell"></i> Ficha de Treino</h1>
+      <p>Plano de Treinamento para <span class="destaque-nome">Maisa</span></p>
+    </div>
+    <a href="index.html" class="voltar-inicio"><i class="fas fa-arrow-left"></i> Voltar</a>
+  </header>
+
+  <nav class="nav-treinos">
+    <button class="nav-btn active" data-treino="treinoA"><i class="fas fa-running"></i> Treino A</button>
+    <button class="nav-btn" data-treino="treinoB"><i class="fas fa-fire-alt"></i> Treino B</button>
+    <button class="nav-btn" data-treino="treinoC"><i class="fas fa-dumbbell"></i> Treino C</button>
+    <button class="nav-btn" data-treino="treinoD"><i class="fas fa-heartbeat"></i> Treino D</button>
+  </nav>
+
+  <main>
+    <section id="treinoA" class="treino-section active">
+      <div class="treino-header">
+        <h2><i class="fas fa-running"></i> Treino A - Quadríceps + Mobilidade + Panturrilha + Cardio</h2>
+        <div class="progresso-container">
+          <div class="progresso-barra" style="width: 25%;"></div>
+          <span class="progresso-texto">25% completo</span>
+        </div>
+      </div>
+      
+      <div class="treino-content">
+        <h3><i class="fas fa-walking"></i> 1. Mobilidade Inicial (5-8 min)</h3>
+        <div class="exercicio-card">
+          <div class="exercicio-header">
+            <h4>Agachamento com peso corporal</h4>
+            <button class="toggle-detalhes"><i class="fas fa-chevron-down"></i></button>
+          </div>
+          <div class="exercicio-detalhes">
+            <div class="serie"><span>Série 1:</span> <span>15 repetições</span></div>
+            <div class="serie"><span>Série 2:</span> <span>15 repetições</span></div>
+            <button class="botao-marcar"><i class="far fa-circle"></i> Marcar como completo</button>
+          </div>
+        </div>
+        
+        <!-- Demais exercícios do Treino A -->
+        <!-- Estrutura similar para outros exercícios -->
+      </div>
+    </section>
+
+    <section id="treinoB" class="treino-section">
+      <!-- Conteúdo do Treino B -->
+    </section>
+
+    <section id="treinoC" class="treino-section">
+      <!-- Conteúdo do Treino C -->
+    </section>
+
+    <section id="treinoD" class="treino-section">
+      <!-- Conteúdo do Treino D -->
+    </section>
+  </main>
+
+  <footer class="footer-maisa">
+    <p>Treinos personalizados para <strong>Maisa</strong> • Atualizado em <span id="data-atual"></span></p>
+    <p>Todos os direitos reservados. © 2025 Designed by <a style="color: white;" href="https://www.isluwebdesign.com.br" target="_blank">Islu Web Design</a>.</p>
+  </footer>
+
+  <script src="js/maisa.js"></script>
+</body>
+</html>
